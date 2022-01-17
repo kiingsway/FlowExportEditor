@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Export Editor 0.1</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/fabric.min.css">
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+
+<body class="ms-bgColor-neutralPrimaryAlt">
+
+    <div class="ms-depth-16 card-row">
+
+        <label for="fileFlowExport" class="ms-fontSize-20 ms-fontColor-themePrimary pb-2">Escolha um arquivo zip exportado do Power Automate para editar</label>
+        <input id="fileFlowExport" type="file" accept=".zip">
+
+    </div>
+
+    <div class="ms-depth-16 card-row borderSolid-1 d-none ms-borderColor-redDark" id="ArquivoNaoIdentificado">
+
+        <span class="ms-fontSize-20 ms-fontColor-alert pb-1">Arquivo não identificado 😳</span>
+        <span class="ms-fontSize-16 pb-1">O arquivo selecionado não possui a estrutura básica para a edição do fluxo.</span>
+        <span class="ms-fontSize-16">A estrutura:</span>
+        <pre class="ms-bgColor-neutralDark p-3"><code>.
+├── manifest.json                   # Arquivo manifesto para alteração do nome do fluxo.
+└── Microsoft.Flow
+    └── flows
+        ├── ...
+        └── {FlowGUID}
+            ├── definition.json     # Definição do fluxo.
+            └── ...
+        </code></pre>
+
+
+    </div>
+
+    <div class="ms-depth-16 card-row">
+
+        <span class="ms-fontSize-28 pb-2">[Flow] Nome do Fluxo vai aqui</span>
+
+        <label for="txtFlowName">Nome do fluxo</label>
+        <input type="text" name="" id="txtFlowName" placeholder="Insira um nome para o fluxo...">
+
+        <label class="d-none" for="txtDescription">Descrição</label>
+        <textarea class="d-none" placeholder="Descrição para o fluxo..." id="txtDescription"></textarea>
+
+        <label for="txtDefinition">Definição</label>
+        <textarea placeholder="Objeto da definição do fluxo..." id="txtDefinition"></textarea>
+        <span id="spanDefinitionStatus"></span>
+
+    </div>
+
+</body>
+<script src="js/main.js"></script>
+
+</html>

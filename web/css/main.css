@@ -1,0 +1,95 @@
+:root {
+    --spacer: 1rem;
+}
+
+* {
+    font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    color: #f3f2f1;
+}
+
+span {
+    cursor: default;
+}
+
+input[type=text],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    box-sizing: border-box;
+    background-color: #111;
+}
+
+pre {
+    border-radius: 5px;
+}
+
+code {
+    font-family: Consolas, monaco, monospace;
+    font-size: 13px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 18.5714px;
+}
+
+.card-row {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 4px;
+}
+
+.borderSolid-1 {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.pb-1 {
+    padding-bottom: calc(var(--spacer) * .25);
+}
+
+.pb-2 {
+    padding-bottom: calc(var(--spacer) * .5);
+}
+
+.pb-3 {
+    padding-bottom: var(--spacer);
+}
+
+.pb-4 {
+    padding-bottom: calc(var(--spacer) * 1.5);
+}
+
+.pb-5 {
+    padding-bottom: calc(var(--spacer) * 3);
+}
+
+.p-1 {
+    padding: calc(var(--spacer) * .25);
+}
+
+.p-2 {
+    padding: calc(var(--spacer) * .5);
+}
+
+.p-3 {
+    padding: var(--spacer);
+}
+
+.p-4 {
+    padding: calc(var(--spacer) * 1.5);
+}
+
+.p-5 {
+    padding: calc(var(--spacer) * 3);
+}
+
+.d-none {
+    display: none;
+}
