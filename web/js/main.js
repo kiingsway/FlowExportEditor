@@ -44,3 +44,9 @@ function isJsonValid(str) {
     }
     return true;
 }
+
+
+function getPathToFile() {
+    eel.pythonFunction()(r => document.getElementById('spanFileLocation').innerHTML = r);
+
+};

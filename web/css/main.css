@@ -38,6 +38,20 @@ code {
     line-height: 18.5714px;
 }
 
+.btn1 {
+    margin: 0 4px;
+    padding: 5px;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 14px;
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+.btn:hover {
+    opacity: 0.7;
+}
+
 .card-row {
     display: flex;
     flex-direction: column;

@@ -1,4 +1,5 @@
 import eel
+import wx
 import random
 from datetime import datetime
 
@@ -21,5 +22,17 @@ def get_date():
 @eel.expose
 def get_ip():
     eel.prompt_alerts('127.0.0.1')
+
+@eel.expose
+def pythonFunction(wildcard="*"):
+    app = wx.App(None)
+    style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
+    dialog = wx.FileDialog(None, 'Open', wildcard=wildcard, style=style)
+    if dialog.ShowModal() == wx.ID_OK:
+        path = dialog.GetPath()
+    else:
+        path = None
+    dialog.Destroy()
+    return path
 
 eel.start('index.html')

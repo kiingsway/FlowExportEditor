@@ -16,7 +16,10 @@
     <div class="ms-depth-16 card-row">
 
         <label for="fileFlowExport" class="ms-fontSize-20 ms-fontColor-themePrimary pb-2">Escolha um arquivo zip exportado do Power Automate para editar</label>
-        <input id="fileFlowExport" type="file" accept=".zip">
+        <!-- <input id="fileFlowExport" type="file" accept=".zip"> -->
+        <button type="button" class="btn ms-bgColor-neutralDark" onclick="getPathToFile()">Selecionar arquivo</button>
+
+        <span id="spanFileLocation" class="ms-fontSize-20 ms-fontColor-neutralLighter pb-2">ARQUIVO</span>
 
     </div>
 
@@ -53,6 +56,7 @@
         <span id="spanDefinitionStatus"></span>
 
     </div>
+
 
 </body>
 <script src="js/main.js"></script>
