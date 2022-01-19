@@ -46,7 +46,29 @@ function isJsonValid(str) {
 }
 
 
-function getPathToFile() {
-    eel.pythonFunction()(r => document.getElementById('spanFileLocation').innerHTML = r);
+async function getExportedFlow() {
+    var zipFile = await eel.btn_ResimyoluClick()();
+    if (zipFile) {
 
-};
+        document.getElementById('spanFileLocation').innerHTML = zipFile.fullPath;
+
+        console.log(JSON.stringify(zipFile))
+
+        if (!(zipFile.error)) {
+            document.getElementById('divFlowEditor').classList.remove('d-none');
+            document.getElementById('divWrongZip').classList.add('d-none');
+            document.getElementById('spanResumeError').innerHTML = '';
+
+            document.getElementById('spanOriginalFlowName').innerHTML = zipFile.flowName;
+            document.getElementById('txtFlowName').value = zipFile.flowName;
+            document.getElementById('txtDefinition').value = JSON.stringify(zipFile.flowDefinition);
+
+        } else {
+            document.getElementById('divFlowEditor').classList.add('d-none');
+            document.getElementById('divWrongZip').classList.remove('d-none');
+
+            zipFile.messageError ? document.getElementById('spanResumeError').innerHTML = zipFile.messageError : document.getElementById('spanResumeError').innerHTML = '';
+
+        }
+    }
+}

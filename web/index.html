@@ -16,17 +16,17 @@
     <div class="ms-depth-16 card-row">
 
         <label for="fileFlowExport" class="ms-fontSize-20 ms-fontColor-themePrimary pb-2">Escolha um arquivo zip exportado do Power Automate para editar</label>
-        <!-- <input id="fileFlowExport" type="file" accept=".zip"> -->
-        <button type="button" class="btn ms-bgColor-neutralDark" onclick="getPathToFile()">Selecionar arquivo</button>
+        <button type="button" class="btn ms-bgColor-neutralDark" onclick="getExportedFlow()">Selecionar arquivo</button>
 
-        <span id="spanFileLocation" class="ms-fontSize-20 ms-fontColor-neutralLighter pb-2">ARQUIVO</span>
+        <span id="spanFileLocation" class="ms-fontSize-20 ms-fontColor-neutralLighter pb-2"></span>
 
     </div>
 
-    <div class="ms-depth-16 card-row borderSolid-1 d-none ms-borderColor-redDark" id="ArquivoNaoIdentificado">
+    <div class="ms-depth-16 card-row borderSolid-1 d-none ms-borderColor-redDark" id="divWrongZip">
 
         <span class="ms-fontSize-20 ms-fontColor-alert pb-1">Arquivo não identificado 😳</span>
-        <span class="ms-fontSize-16 pb-1">O arquivo selecionado não possui a estrutura básica para a edição do fluxo.</span>
+        <span class="ms-fontSize-20 ms-fontColor-alert pb-1 borderSolid-2 ms-borderColor-redDark p-2" id="spanResumeError"></span>
+        <span class="ms-fontSize-16 pb-1">O arquivo selecionado não possui a estrutura básica para a edição do fluxo ou o arquivo está corrompido.</span>
         <span class="ms-fontSize-16">A estrutura:</span>
         <pre class="ms-bgColor-neutralDark p-3"><code>.
 ├── manifest.json                   # Arquivo manifesto para alteração do nome do fluxo.
@@ -41,9 +41,9 @@
 
     </div>
 
-    <div class="ms-depth-16 card-row">
+    <div class="ms-depth-16 card-row d-none" id="divFlowEditor">
 
-        <span class="ms-fontSize-28 pb-2">[Flow] Nome do Fluxo vai aqui</span>
+        <span class="ms-fontSize-28 pb-2" id="spanOriginalFlowName"></span>
 
         <label for="txtFlowName">Nome do fluxo</label>
         <input type="text" name="" id="txtFlowName" placeholder="Insira um nome para o fluxo...">

@@ -1,11 +1,16 @@
-import eel
-import wx
-import random
+from tkinter import filedialog as fd
 from datetime import datetime
+import tkinter as tk
+import zipfile
+import random
+import json
+import eel
 
 eel.browsers.set_path('chrome', 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe')
 
 eel.init('web')
+
+
 
 @eel.expose
 def get_random_name():
@@ -24,15 +29,54 @@ def get_ip():
     eel.prompt_alerts('127.0.0.1')
 
 @eel.expose
-def pythonFunction(wildcard="*"):
-    app = wx.App(None)
-    style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
-    dialog = wx.FileDialog(None, 'Open', wildcard=wildcard, style=style)
-    if dialog.ShowModal() == wx.ID_OK:
-        path = dialog.GetPath()
-    else:
-        path = None
-    dialog.Destroy()
-    return path
+def btn_ResimyoluClick():
+    root = tk.Tk()
+    root.withdraw()
+    root.wm_attributes('-topmost', 1)
+    filetypes = (
+        ('zip files', '*.zip'),
+        ('All files', '*.*')
+    )
+
+    zipInformation = {
+        'error': False,
+        'messageError': '',
+        'fullPath': '',
+        'fileName': '',
+        'flowName': '',
+        'flowId': '',
+        'flowDefinition': {}
+    }
+
+    zipInformation['fullPath'] = fd.askopenfilename(filetypes=filetypes)
+
+    try:
+        with zipfile.ZipFile(zipInformation['fullPath']) as z:
+            print(z.namelist())
+            if 'manifest.json' in z.namelist():
+                zipInformation['error'] = False
+                zipInformation['messageError'] = ''
+
+                with z.open('manifest.json') as manifest:
+                    data = manifest.read()
+                    zipInformation['flowName'] = json.loads(data)['details']['displayName']
+
+                with z.open('Microsoft.Flow/flows/manifest.json') as manifestFlowId:
+                    data = manifestFlowId.read()
+                    zipInformation['flowId'] = json.loads(data)['flowAssets']['assetPaths'][0]
+
+                with z.open('Microsoft.Flow/flows/' + zipInformation['flowId'] + '/definition.json') as definitionFlow:
+                    data = definitionFlow.read()
+                    zipInformation['flowDefinition'] = json.loads(data)
+
+            else:
+                zipInformation['error'] = True
+                zipInformation['messageError'] = 'Unidentified Flow exported file.'
+
+    except zipfile.BadZipFile:
+        zipInformation['error'] = True
+        zipInformation['messageError'] = 'BadZipFile'
+
+    return zipInformation
 
 eel.start('index.html')

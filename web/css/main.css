@@ -38,7 +38,7 @@ code {
     line-height: 18.5714px;
 }
 
-.btn1 {
+.btn {
     margin: 0 4px;
     padding: 5px;
     border-width: 1px;
@@ -61,6 +61,11 @@ code {
 
 .borderSolid-1 {
     border-width: 1px;
+    border-style: solid;
+}
+
+.borderSolid-2 {
+    border-width: 2px;
     border-style: solid;
 }
 
