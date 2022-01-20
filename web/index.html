@@ -18,7 +18,9 @@
         <label for="fileFlowExport" class="ms-fontSize-20 ms-fontColor-themePrimary pb-2">Escolha um arquivo zip exportado do Power Automate para editar</label>
         <button type="button" class="btn ms-bgColor-neutralDark" onclick="getExportedFlow()">Selecionar arquivo</button>
 
+
         <span id="spanFileLocation" class="ms-fontSize-20 ms-fontColor-neutralLighter pb-2"></span>
+
 
     </div>
 
@@ -43,18 +45,31 @@
 
     <div class="ms-depth-16 card-row d-none" id="divFlowEditor">
 
-        <span class="ms-fontSize-28 pb-2" id="spanOriginalFlowName"></span>
+        <div>
+            <span class="ms-fontSize-28 pb-2" id="spanOriginalFlowName" style="width: 80%;"></span>
+            <button type="button" class="btn ms-bgColor-success ms-fontColor-black" onclick="saveFlow()" style="width: 20%;">Salvar</button>
 
-        <label for="txtFlowName">Nome do fluxo</label>
-        <input type="text" name="" id="txtFlowName" placeholder="Insira um nome para o fluxo...">
+        </div>
 
         <label class="d-none" for="txtDescription">Descrição</label>
         <textarea class="d-none" placeholder="Descrição para o fluxo..." id="txtDescription"></textarea>
 
+        <label for="txtManifest">Manifesto</label>
+        <textarea placeholder="Objeto do manifesto do fluxo..." id="txtManifest" disabled></textarea>
+
         <label for="txtDefinition">Definição</label>
-        <textarea placeholder="Objeto da definição do fluxo..." id="txtDefinition"></textarea>
+        <textarea placeholder="Objeto da definição do fluxo..." id="txtDefinition" disabled></textarea>
         <span id="spanDefinitionStatus"></span>
 
+    </div>
+
+    <div class="ms-depth-16 card-row d-none" id="divFlowActions">
+
+        <label for="txtFlowName">Nome do fluxo</label>
+        <input type="text" id="txtFlowName" placeholder="Insira um nome para o fluxo...">
+
+        <label for="txtFlowActionsSite">Site</label>
+        <input type="text" id="txtFlowActionsSite" placeholder="Insira um site...">
     </div>
 
 
