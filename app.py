@@ -1,16 +1,18 @@
 from tkinter import filedialog as fd
 from datetime import datetime
 import tkinter as tk
+import tempfile
 import zipfile
 import random
 import json
 import eel
+import os
 
 eel.browsers.set_path('chrome', 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe')
 
 eel.init('web')
 
-
+definitionJsonPath = ''
 
 @eel.expose
 def get_random_name():
@@ -31,14 +33,14 @@ def get_ip():
 @eel.expose
 def saveFlow(newFlow):
 
-    print(type(newFlow))
+    # print(newFlow)
 
     # Subtituir nome e site
     manifest = json.loads(json.dumps(newFlow['flowManifest']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
     definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowSite']['old'], newFlow['flowSite']['new']))
 
-    newFileName = manifest['details']['displayName'].replace(' ', '_') + '.zip'
-    print(newFileName)
+    # newFileName = manifest['details']['displayName'].replace(' ', '_') + '.zip'
+    # print(newFileName)
 
     # print('Nome: ')
     # print(manifest['details']['displayName'])
@@ -46,11 +48,41 @@ def saveFlow(newFlow):
     # print(definition['properties']['definition']['actions']['Parâmetros']['inputs']['Site'])
 
     # Salvar arquivo (tenha apenas manifest e definition)
-    with zipfile.ZipFile(newFlow.filePath) as inzip, zipfile.ZipFile(newFileName, "w") as outzip:
-        pass
+    # with zipfile.ZipFile(newFlow['filePath']) as inzip, zipfile.ZipFile(newFileName, "w") as outzip:
+    #     pass
+
+    # print(newFlow['filePath'])
+
+    updateZip(newFlow['filePath'], 'manifest.json', manifest)
+    updateZip(newFlow['filePath'], definitionJsonPath, definition)
+
+def updateZip(zipname, filename, data):
+    # generate a temp file
+    tmpfd, tmpname = tempfile.mkstemp(dir=os.path.dirname(zipname))
+    os.close(tmpfd)
+
+    # create a temp copy of the archive without filename            
+    with zipfile.ZipFile(zipname, 'r') as zin:
+        with zipfile.ZipFile(tmpname, 'w') as zout:
+            zout.comment = zin.comment # preserve the comment
+            for item in zin.infolist():
+                if item.filename != filename:
+                    zout.writestr(item, zin.read(item.filename))
+
+    # replace with the temp archive
+    os.remove(zipname)
+    os.rename(tmpname, zipname)
+
+    # now add filename with its new data
+    with zipfile.ZipFile(zipname, mode='a', compression=zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(filename, json.dumps(data).encode('utf-8'))
+        # zf.writestr(filename, data)
+
 
 @eel.expose
 def btn_ResimyoluClick():
+    global definitionJsonPath
+    
     root = tk.Tk()
     root.withdraw()
     root.wm_attributes('-topmost', 1)
@@ -70,7 +102,8 @@ def btn_ResimyoluClick():
         'flowDefinition': {},
         'parameters': {
             'site': ''
-        }
+        },
+        'definitionJsonPath': ''
     }
 
     zipInformation['fullPath'] = fd.askopenfilename(filetypes=filetypes)
@@ -94,6 +127,8 @@ def btn_ResimyoluClick():
                     data = definitionFlow.read()
                     zipInformation['flowDefinition'] = json.loads(data)
                     zipInformation['parameters']['site'] = json.loads(data)['properties']['definition']['actions']['Parâmetros']['inputs']['Site']
+                    # zipInformation['definitionJsonPath'] = 'Microsoft.Flow/flows/' + zipInformation['flowId'] + '/definition.json'
+                    definitionJsonPath = 'Microsoft.Flow/flows/' + zipInformation['flowId'] + '/definition.json'
 
             else:
                 zipInformation['error'] = True
