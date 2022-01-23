@@ -58,8 +58,6 @@ function saveFlow() {
         'flowManifest': JSON.parse(document.getElementById('txtManifest').value)
     }
 
-    console.log(zipSave);
-
     eel.saveFlow(zipSave);
 
 }

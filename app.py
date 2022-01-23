@@ -32,12 +32,25 @@ def get_ip():
 
 @eel.expose
 def saveFlow(newFlow):
+    
+    # Transformando manifest e definition em string
+    manifest = json.dumps(newFlow['flowManifest'], ensure_ascii=False)
+    definition = json.dumps(newFlow['flowDefinition'], ensure_ascii=False)
 
-    # print(newFlow)
+    # Replace
+    manifest = manifest.replace(newFlow['flowName']['old'], newFlow['flowName']['new'])
+    definition = definition.replace(newFlow['flowName']['old'], newFlow['flowName']['new'])
+    definition = definition.replace(newFlow['flowSite']['old'], newFlow['flowSite']['new'])
+
+    # Retornar a dict
+
+    manifest = json.loads(manifest)
+    definition = json.loads(definition)
 
     # Subtituir nome e site
-    manifest = json.loads(json.dumps(newFlow['flowManifest']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
-    definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowSite']['old'], newFlow['flowSite']['new']))
+    # manifest = json.loads(json.dumps(newFlow['flowManifest']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
+    # definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowSite']['old'], newFlow['flowSite']['new']))
+    # definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
 
     updateZip(newFlow['filePath'], 'manifest.json', manifest)
     updateZip(newFlow['filePath'], definitionJsonPath, definition)
