@@ -1,6 +1,7 @@
 from tkinter import filedialog as fd
 from datetime import datetime
 import tkinter as tk
+import subprocess
 import tempfile
 import zipfile
 import random
@@ -14,26 +15,11 @@ eel.init('web')
 
 definitionJsonPath = ''
 
-@eel.expose
-def get_random_name():
-    eel.prompt_alerts('Random name')
-
-@eel.expose
-def get_random_number():
-    eel.prompt_alerts(random.randint(1, 100))
-
-@eel.expose
-def get_date():
-    eel.prompt_alerts(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
-
-@eel.expose
-def get_ip():
-    eel.prompt_alerts('127.0.0.1')
 
 @eel.expose
 def saveFlow(newFlow):
     
-    # Transformando manifest e definition em string
+    # Making Manifest.json & Definition in string
     manifest = json.dumps(newFlow['flowManifest'], ensure_ascii=False)
     definition = json.dumps(newFlow['flowDefinition'], ensure_ascii=False)
 
@@ -42,18 +28,16 @@ def saveFlow(newFlow):
     definition = definition.replace(newFlow['flowName']['old'], newFlow['flowName']['new'])
     definition = definition.replace(newFlow['flowSite']['old'], newFlow['flowSite']['new'])
 
-    # Retornar a dict
-
+    # Return to Dict
     manifest = json.loads(manifest)
     definition = json.loads(definition)
 
-    # Subtituir nome e site
-    # manifest = json.loads(json.dumps(newFlow['flowManifest']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
-    # definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowSite']['old'], newFlow['flowSite']['new']))
-    # definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
-
+    # Update ZIP File
     updateZip(newFlow['filePath'], 'manifest.json', manifest)
     updateZip(newFlow['filePath'], definitionJsonPath, definition)
+    
+    # Abrir pasta do arquivo com o próprio selecionado
+    subprocess.Popen(r'explorer /select,"' + newFlow['filePath'].replace('/', '\\') + '"')
 
 def updateZip(zipname, filename, data):
     # generate a temp file
