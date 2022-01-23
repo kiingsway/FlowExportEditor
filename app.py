@@ -39,20 +39,6 @@ def saveFlow(newFlow):
     manifest = json.loads(json.dumps(newFlow['flowManifest']).replace(newFlow['flowName']['old'], newFlow['flowName']['new']))
     definition = json.loads(json.dumps(newFlow['flowDefinition']).replace(newFlow['flowSite']['old'], newFlow['flowSite']['new']))
 
-    # newFileName = manifest['details']['displayName'].replace(' ', '_') + '.zip'
-    # print(newFileName)
-
-    # print('Nome: ')
-    # print(manifest['details']['displayName'])
-    # print('Site: ')
-    # print(definition['properties']['definition']['actions']['Parâmetros']['inputs']['Site'])
-
-    # Salvar arquivo (tenha apenas manifest e definition)
-    # with zipfile.ZipFile(newFlow['filePath']) as inzip, zipfile.ZipFile(newFileName, "w") as outzip:
-    #     pass
-
-    # print(newFlow['filePath'])
-
     updateZip(newFlow['filePath'], 'manifest.json', manifest)
     updateZip(newFlow['filePath'], definitionJsonPath, definition)
 
@@ -82,7 +68,7 @@ def updateZip(zipname, filename, data):
 @eel.expose
 def btn_ResimyoluClick():
     global definitionJsonPath
-    
+
     root = tk.Tk()
     root.withdraw()
     root.wm_attributes('-topmost', 1)
@@ -127,7 +113,6 @@ def btn_ResimyoluClick():
                     data = definitionFlow.read()
                     zipInformation['flowDefinition'] = json.loads(data)
                     zipInformation['parameters']['site'] = json.loads(data)['properties']['definition']['actions']['Parâmetros']['inputs']['Site']
-                    # zipInformation['definitionJsonPath'] = 'Microsoft.Flow/flows/' + zipInformation['flowId'] + '/definition.json'
                     definitionJsonPath = 'Microsoft.Flow/flows/' + zipInformation['flowId'] + '/definition.json'
 
             else:
